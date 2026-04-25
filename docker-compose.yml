@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_tarefas
+    restart: unless-stopped
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tarefas
+    command: >
+      postgres
+      -c listen_addresses='*'
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./init-hba.sh:/docker-entrypoint-initdb.d/init-hba.sh:ro
