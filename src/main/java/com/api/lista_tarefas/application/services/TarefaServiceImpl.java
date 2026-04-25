@@ -5,8 +5,8 @@ import com.api.lista_tarefas.integration.repositories.TarefaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 public class TarefaServiceImpl implements TarefaService{
@@ -24,29 +24,39 @@ public class TarefaServiceImpl implements TarefaService{
 
     @Override
     public Optional<Tarefa> findById(Integer id) {
-
         return tarefaRepository.findById(id);
     }
 
     @Override
     public Tarefa create(Tarefa tarefa) {
+        tarefa.setDataAtualizacao(null);
+        tarefa.setDataCriacao(null);
         return tarefaRepository.save(tarefa);
     }
 
     @Override
-    public Tarefa update(Tarefa tarefa) throws Exception {
+    public Tarefa update(Integer id, Tarefa tarefa) throws Exception {
+        Tarefa tarefaBanco = this.tarefaRepository.findById(id).orElseThrow(() -> new RuntimeException("Tarefa com o ID " + id + " não existem"));
 
-        Optional<Tarefa> tarefaBanco = this.tarefaRepository.findById(tarefa.getId());
-
-        if (tarefaBanco.isEmpty()) {
-            throw new Exception("Erro: Tarefa não existe no banco de dados");
+        if (!Objects.equals(tarefaBanco.getDescricao(), tarefa.getDescricao()) && tarefa.getDescricao() != null) {
+            tarefaBanco.setDescricao(tarefa.getDescricao());
         }
 
-        return tarefaRepository.save(tarefa);
+        if(!Objects.equals(tarefaBanco.getStatus(), tarefa.getStatus()) && tarefa.getStatus() != null){
+            tarefaBanco.setStatus(tarefa.getStatus());
+        }
+
+        if(!Objects.equals(tarefaBanco.getObservacoes(), tarefa.getObservacoes())) {
+            tarefaBanco.setObservacoes(tarefa.getObservacoes());
+        }
+
+        return tarefaRepository.save(tarefaBanco);
     }
 
     @Override
-    public Boolean delete(Integer id) {
-        return null;
+    public void delete(Integer id) {
+        Tarefa tarefa = tarefaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tarefa com o ID " + id + " não encontrada"));
+        tarefaRepository.delete(tarefa);
     }
 }

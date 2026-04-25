@@ -10,6 +10,8 @@ public interface TarefaService {
     List<Tarefa> findAll();
     Optional<Tarefa> findById(Integer id);
     Tarefa create(Tarefa tarefa);
-    Tarefa update(Tarefa tarefa) throws Exception;
-    Boolean delete(Integer id);
+
+    Tarefa update(Integer id, Tarefa tarefa) throws Exception;
+
+    void delete(Integer id);
 }
