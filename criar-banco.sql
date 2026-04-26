@@ -6,7 +6,7 @@ CREATE DATABASE tarefas;
 CREATE TABLE IF NOT EXISTS tarefas (
     id SERIAL PRIMARY KEY,
     descricao VARCHAR(255) NOT NULL,
-    status VARCHAR(3) NOT NULL,
+    tarefa_status VARCHAR(3) NOT NULL,
     observacoes TEXT,
     data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS tarefas (
     -- PE  = PENDENTE
     -- AND = EM_ANDAMENTO
     -- CON = CONCLUIDA
-    CONSTRAINT chk_status CHECK (status IN ('PE', 'AND', 'CON'))
+    CONSTRAINT chk_status CHECK (tarefa_status IN ('PE', 'AND', 'CON'))
 );
 
