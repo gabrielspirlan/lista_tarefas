@@ -6,10 +6,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "tarefas")
+@Builder
+@Data
 public class Tarefa {
 
 
@@ -25,10 +24,10 @@ public class Tarefa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Descrição não pode ser nulo ou vazio")
     private String descricao;
 
-    @NotNull
+    @NotNull(message = "Status da tarefa não pode ser nulo")
     @Convert(converter = TarefaStatusConverter.class)
     private TarefaStatusEnum status;
 
