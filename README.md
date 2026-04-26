@@ -5,11 +5,17 @@
 
 ---
 
+## 🔗 Acesso Rápido
+
+> **Swagger:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+
+---
+
 ## 📖 Descrição
 
 API REST desenvolvida em **Java 17** com **Spring Boot 4** para gerenciamento de tarefas. A aplicação permite criar, listar, atualizar e remover tarefas, com suporte a paginação, status controlado por enum e documentação automática via Swagger/OpenAPI.
 
-O projeto segue uma arquitetura em camadas bem definida (Controller → Service → Repository → Domain), garantindo separação de responsabilidades e facilidade de manutenção e testes.
+O projeto segue os princípios do **Domain-Driven Design (DDD)**, organizado em camadas bem definidas, garantindo separação de responsabilidades, isolamento do domínio de negócio e facilidade de manutenção e testes.
 
 ---
 
@@ -83,12 +89,12 @@ CREATE DATABASE tarefas;
 CREATE TABLE IF NOT EXISTS tarefas (
     id               SERIAL PRIMARY KEY,
     descricao        VARCHAR(255) NOT NULL,
-    tarefa_status    VARCHAR(3)   NOT NULL,
+    status    VARCHAR(3)   NOT NULL,
     observacoes      TEXT,
     data_criacao     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_atualizacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT chk_status CHECK (tarefa_status IN ('PE', 'AND', 'CON'))
+    CONSTRAINT chk_status CHECK (status IN ('PE', 'AND', 'CON'))
 );
 ```
 
@@ -173,19 +179,6 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-```
-
-O DDL é gerenciado manualmente via script `criar-banco.sql`. O Hibernate não altera a estrutura do banco (`ddl-auto=none`).
-
-### Testes (`application-test.properties`)
-
-```properties
-spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=STATUS
-spring.datasource.driverClassName=org.h2.Driver
-
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=none
-spring.sql.init.mode=always
 ```
 
 Nos testes, é utilizado o banco **H2 em memória**. O schema é criado pelo arquivo `src/test/resources/schema.sql`, sem constraints `CHECK` — necessário para compatibilidade com o H2 2.2.x e o Hibernate 7.

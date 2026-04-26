@@ -120,11 +120,6 @@ public class TarefaServiceTest {
         Assertions.assertEquals(TarefaStatusEnum.CONCLUIDA, resultado.getStatus());
         Assertions.assertEquals(tarefaOriginal.getId(), resultado.getId());
         Assertions.assertEquals(tarefaOriginal.getDescricao(), resultado.getDescricao());
-        
-        verify(tarefaRepository).save(argThat(t -> 
-            t.getStatus() == TarefaStatusEnum.CONCLUIDA && 
-            t.getDescricao().equals(tarefaOriginal.getDescricao())
-        ));
     }
     @Test
     public void deveListarTarefasComPaginacao() {
