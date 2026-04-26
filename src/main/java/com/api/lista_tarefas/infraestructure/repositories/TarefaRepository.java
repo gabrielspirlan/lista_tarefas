@@ -1,4 +1,4 @@
-package com.api.lista_tarefas.integration.repositories;
+package com.api.lista_tarefas.infraestructure.repositories;
 
 import com.api.lista_tarefas.domain.entities.Tarefa;
 import org.springframework.data.jpa.repository.JpaRepository;
